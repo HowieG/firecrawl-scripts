@@ -1,0 +1,53 @@
+curl -X POST https://api.firecrawl.dev/v0/scrape \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -d '{
+    "url": "https://docs.firecrawl.dev/",
+    "extractorOptions": {
+      "mode": "llm-extraction",
+      "extractionPrompt": "I am converting the content on my blog posts to a JSON format like below. The title should be the title of the blog post. The date should be new Date(\"DATE_IN_ISO_8601_FORMAT\") - it likely says x hours ago so calculate using today'\''s date August 27, 2024. You must put it in new Date(DATE) format. The description should be the first sentence of the article after \"Follow us on Twitter and LinkedIn\". Link is the link to the article. Image is the first main image that appears in the blog. Author is always \"Alex Reibman\". AuthorImage is always \"/image/blog/authors/alex-reibman.jpg\". {
+  title: \"AgentOps, the Best Tool for AutoGen Agent Observability\",
+  date: new Date(\"2024-07-25T16:00:00-04:00\"),
+  description: \"Build reliable AutoGen agents with AgentOps\",
+  link: \"https://medium.com/@agencyai/agency-ai-agen-cy-with-400-ai-engineers-from-around-the-world-to-sfs-largest-ai-agent-hackathon-3c22f38d9ee2?source=user_profile---------0----------------------------\",
+  image: \"/image/blog/agentops-ai-the-future-of-agent-management.png\",
+  author: \"Alex Reibman\",
+  authorImage: \"/image/blog/authors/alex-reibman.jpg\",
+},",
+      "extractionSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "authorImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "date",
+          "description",
+          "link",
+          "image",
+          "author",
+          "authorImage"
+        ]
+      }
+    }
+  }'
